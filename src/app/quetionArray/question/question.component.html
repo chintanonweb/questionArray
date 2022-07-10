@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <mat-card>
+                <h2 class="text-center shadow-sm p-2">Form Details</h2>
+                <form action="" [formGroup]="queFormGroup">
+                    <div class="" formArrayName="questionArr" *ngIf="questionArr">
+                        <div class="" *ngFor="let que of questionArr.controls; index as i" [formGroupName]="i">
+                            <mat-card class="mt-2">
+                                <div class="d-flex justify-content-end mb-2">
+                                    <button mat-mini-fab color="white" *ngIf="i>0" (click)="deleteQuestion(i)">
+                                        <mat-icon color="warn">delete</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-form-field appearance="outline" class="full-width-field">
+                                    <mat-label>Enter Question</mat-label>
+                                    <input matInput placeholder="Placeholder" formControlName="questions">
+                                    <mat-error
+                                        *ngIf="questionArr.controls[i].get('questions')?.invalid && (questionArr.controls[i].get('questions')?.dirty || questionArr.controls[i].get('questions')?.touched)">
+                                        <div *ngIf="questionArr.controls[i].get('questions')?.errors?.['required']">
+                                            * Question is required
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                                <br>
+                                <mat-form-field appearance="fill" class="full-width-field">
+                                    <mat-label>Select an option</mat-label>
+                                    <mat-select formControlName="questionsType">
+                                        <mat-option *ngFor="let qtype of qtypes" [value]="qtype.type"
+                                            (onSelectionChange)="onSelectEvent($event, qtype, i)">
+                                            {{qtype.type}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                    *ngIf="questionArr.controls[i].get('questionsType')?.invalid && (questionArr.controls[i].get('questionsType')?.dirty || questionArr.controls[i].get('questionsType')?.touched)">
+                                    <div *ngIf="questionArr.controls[i].get('questionsType')?.errors?.['required']">
+                                        * Question Type is required
+                                    </div>
+                                </mat-error>
+                                </mat-form-field>
+                          
+                                <ng-container
+                                    *ngIf="questionArr.controls[i].get('questionsType')?.value === 'Radio Type'">
+                                    <ng-container *ngIf="radioArr" formArrayName="radioArr"> 
+                                        <div *ngFor="let rad of radioArr(i).controls; index as j" [formGroupName]="j" class="row align-items-center">
+                                            <mat-form-field appearance="outline" class="col mb-0">
+                                                <mat-label>Answer {{j}}</mat-label>
+                                                <input matInput placeholder="Placeholder" formControlName="radioValue">
+                                                <mat-error
+                                                    *ngIf="radioArr(i).controls[j].get('radioValue')?.invalid && (radioArr(i).controls[j].get('radioValue')?.dirty || radioArr(i).controls[j].get('radioValue')?.touched)">
+                                                    <div
+                                                        *ngIf="radioArr(i).controls[j].get('radioValue')?.errors?.['required']">
+                                                        * Radio Input is required
+                                                    </div>
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <button *ngIf="j>0" mat-raised-button color="accent" class="col-auto h-50 mb-3" (click)="addRadioInput(i)">
+                                                <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+                                            </button>
+                                            <button *ngIf="j>1" mat-raised-button color="accent" class="col-auto h-50 mb-3 ms-1" (click)="deleteRadioInput(i,j)">
+                                                <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </mat-card>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center">
+                    <button mat-raised-button color="accent" class="mt-2" (click)="addQuestion()">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+                        More Question
+                    </button>
+                </div>
+
+                <button mat-raised-button class="mt-2" (click)="reset()">Reset</button>
+                <button mat-raised-button color="primary" class="ms-2" (click)="sumbitQuestion()">Submit</button>
+            </mat-card>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+</div>

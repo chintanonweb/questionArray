@@ -1,0 +1,46 @@
+<div class="container">
+    <mat-card>
+        <div class="bg-danger p-3 rounded mt-3 align-items-center shadow">
+            <h1 class="text-center mb-0 fw-bold text-white">QUESTION ANSWER APPLICATION</h1>
+            <h3 class="text-center mb-0 fw-bold text-white">Create Form & Fill Details</h3>
+        </div>
+        <button mat-raised-button color="primary" class="mt-2 mb-3" (click)="addQuestion()">Add/Edit Quetion Form</button>
+
+        <ng-container *ngIf="questionArrayData">
+            <mat-card class="shadow">
+                <ng-container *ngFor="let q of questionArrayData; index as i">
+                    <div class="form-group">
+                        <label for="question{{i}}" class="form-label">
+                            <h2 class="mb-0">
+                                {{'Question '+ (i+1) +': ' + q.questions}}
+                            </h2>
+                        </label>
+                        <mat-form-field *ngIf="q.questionsType === 'Short Text'" appearance="outline"
+                            class="full-width-field">
+                            <input matInput id="question{{i}}" placeholder="{{q.questions}}">
+                        </mat-form-field>
+                        <mat-form-field *ngIf="q.questionsType === 'Long Text'" appearance="outline"
+                            class="full-width-field">
+                            <textarea matInput id="question{{i}}" placeholder="{{q.questions}}"></textarea>
+                        </mat-form-field>
+                        <br>
+                        <mat-radio-group *ngIf="q.questionsType === 'Radio Type'" aria-label="Select an option"
+                            class="mb-3">
+                            <mat-radio-button *ngFor="let r of q.radioArr" value="{{r.radioValue}}" class="ms-3 mb-3">
+                                {{r.radioValue}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </ng-container>
+                <div class="d-flex justify-content-center mt-2">
+                    <button mat-raised-button color="accent" class="ps-2" (click)="addQuestion()">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                        Edit
+                    </button>
+                </div>
+             
+            </mat-card>
+        </ng-container>
+    </mat-card>
+
+</div>
